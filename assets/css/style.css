@@ -652,15 +652,19 @@ header .navbar ul li a:hover {
   color: rgb(255, 230, 0);
 }
 .work .box-container {
-  display: flex;
+  display: grid;
+  flex: 1 1 30rem;
   flex-wrap: wrap;
-  gap: 1.5rem;
-  margin: 2rem;
+  gap: 1rem;
+  margin: 0 auto;
+  width: 100%;
+  /* padding: 2rem; */
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 }
 .work .box-container .box {
   flex: 1 1 30rem;
   border-radius: 0.5rem;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0.5rem 0rem rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden;
   height: auto;
