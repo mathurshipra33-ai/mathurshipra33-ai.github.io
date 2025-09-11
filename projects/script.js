@@ -32,7 +32,7 @@ document.addEventListener('visibilitychange',
 
 // fetch projects start
 function getProjects() {
-    return fetch("projects.json")
+    return fetch("./projects/projects.json")
         .then(response => response.json())
         .then(data => {
             return data
@@ -40,69 +40,79 @@ function getProjects() {
 }
 
 
+// Pagination logic for projects
+let currentPage = 1;
+const projectsPerPage = 6;
+let allProjects = [];
+
+function renderPagination(totalPages) {
+        const paginationContainer = document.querySelector(".projects-pagination");
+        if (!paginationContainer) return;
+        let html = '';
+        html += `<button id="prevPage" ${currentPage === 1 ? 'disabled' : ''}>Previous</button>`;
+        html += `<span> Page ${currentPage} of ${totalPages} </span>`;
+        html += `<button id="nextPage" ${currentPage === totalPages ? 'disabled' : ''}>Next</button>`;
+        paginationContainer.innerHTML = html;
+
+        document.getElementById("prevPage").onclick = function() {
+                if (currentPage > 1) {
+                        currentPage--;
+                        showProjects(allProjects);
+                }
+        };
+        document.getElementById("nextPage").onclick = function() {
+                if (currentPage < totalPages) {
+                        currentPage++;
+                        showProjects(allProjects);
+                }
+        };
+}
+
 function showProjects(projects) {
-    let projectsContainer = document.querySelector(".work .box-container");
-    let projectsHTML = "";
-    projects.forEach(project => {
-        projectsHTML += `
-        <div class="grid-item ${project.category}">
-        <div class="box tilt" style="width: 380px; margin: 1rem">
-      <img draggable="false" src="/assets/images/projects/${project.image}.png" alt="project" />
-      <div class="content">
-        <div class="tag">
-        <h3>${project.name}</h3>
+        let projectsContainer = document.querySelector(".work .box-container");
+        let start = (currentPage - 1) * projectsPerPage;
+        let end = start + projectsPerPage;
+        let paginatedProjects = projects.slice(start, end);
+        let projectsHTML = "";
+        paginatedProjects.forEach(project => {
+                projectsHTML += `
+                <div class="grid-item">
+                <div class="box tilt" style="width: 380px; margin: 1rem">
+            <div class="content">
+                <div class="tag">
+                <h3>${project.title}</h3>
+                </div>
+                <div class="desc">
+                    <p>${project.description}</p>
+                    <div class="btns">
+                        <a href="${project.demo}" class="btn" target="_blank"><i class="fas fa-eye"></i> View</a>
+                </div>
+            </div>
         </div>
-        <div class="desc">
-          <p>${project.desc}</p>
-          <div class="btns">
-            <a href="${project.links.view}" class="btn" target="_blank"><i class="fas fa-eye"></i> View</a>
-            <a href="${project.links.code}" class="btn" target="_blank">Code <i class="fas fa-code"></i></a>
-          </div>
-        </div>
-      </div>
-    </div>
-    </div>`
-    });
-    projectsContainer.innerHTML = projectsHTML;
+        </div>`
+        });
+        projectsContainer.innerHTML = projectsHTML;
 
-    // vanilla tilt.js
-    // VanillaTilt.init(document.querySelectorAll(".tilt"), {
-    //     max: 20,
-    // });
-    // // vanilla tilt.js  
-
-    // /* ===== SCROLL REVEAL ANIMATION ===== */
-    // const srtop = ScrollReveal({
-    //     origin: 'bottom',
-    //     distance: '80px',
-    //     duration: 1000,
-    //     reset: true
-    // });
-
-    // /* SCROLL PROJECTS */
-    // srtop.reveal('.work .box', { interval: 200 });
-
-    // isotope filter products
-    var $grid = $('.box-container').isotope({
-        itemSelector: '.grid-item',
-        layoutMode: 'fitRows',
-        masonry: {
-            columnWidth: 200
-        }
-    });
-
-    // filter items on button click
-    $('.button-group').on('click', 'button', function () {
-        $('.button-group').find('.is-checked').removeClass('is-checked');
-        $(this).addClass('is-checked');
-        var filterValue = $(this).attr('data-filter');
-        $grid.isotope({ filter: filterValue });
-    });
+        // Render pagination controls
+        let totalPages = Math.ceil(projects.length / projectsPerPage);
+        renderPagination(totalPages);
 }
 
 getProjects().then(data => {
-    showProjects(data);
-})
+        allProjects = data;
+        showProjects(allProjects);
+});
+
+// Add a container for pagination controls below the projects grid
+document.addEventListener('DOMContentLoaded', function() {
+    let workSection = document.querySelector('.work');
+    if (workSection && !document.querySelector('.projects-pagination')) {
+        let paginationDiv = document.createElement('div');
+        paginationDiv.className = 'projects-pagination';
+        paginationDiv.style = 'text-align:center;margin:2rem 0;';
+        workSection.appendChild(paginationDiv);
+    }
+});
 // fetch projects end
 
 // Start of Tawk.to Live Chat
