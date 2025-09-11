@@ -8,7 +8,7 @@
   text-decoration: none;
   outline: none;
   border: none;
-  text-transform: capitalize;
+  text-transform: none;
   transition: all 0.2s linear;
 }
 html {
@@ -669,6 +669,7 @@ header .navbar ul li a:hover {
   overflow: hidden;
   height: auto;
   margin-bottom: 2rem;
+  
 }
 .work .box-container .box img {
   width: 100%;
@@ -692,7 +693,7 @@ header .navbar ul li a:hover {
   border-radius: 0 0 0.5rem 0.5rem;
 }
 .work .box-container .box .content .tag h3 {
-  font-size: 2rem;
+   font-size: clamp(1.5rem, 2.5vw, 1.2rem);
   margin: 0;
 }
 .work .desc {
@@ -716,9 +717,10 @@ header .navbar ul li a:hover {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  
 }
 .work .desc p {
-  font-size: 1.5rem;
+   font-size: clamp(1rem, 2vw, 1.1rem);
 }
 .work .desc .btns {
   display: flex;
