@@ -79,32 +79,32 @@ var typed = new Typed(".typing-text", {
     backDelay: 500,
 });
 // <!-- typed js effect ends -->
-async function fetchData(type = "skills") {
-    console.log('fetchData called with type:', type);
-    let response;
-    if (type === "skills") {
-        response = await fetch("skills.json");
-    } else {
-        response = await fetch("projects/projects.json");
-    }
-    if (!response.ok) return [];
-    const data = await response.json();
-    return data;
-}
+// async function fetchData(type = "skills") {
+//     console.log('fetchData called with type:', type);
+//     let response;
+//     if (type === "skills") {
+//         response = await fetch("skills.json");
+//     } else {
+//         response = await fetch("projects/projects.json");
+//     }
+//     if (!response.ok) return [];
+//     const data = await response.json();
+//     return data;
+// }
 
-function showSkills(skills) {
-    let skillsContainer = document.getElementById("skillsContainer");
-    let skillHTML = "";
-        skills.forEach(skill => {
-                skillHTML += `
-                <div class="bar">
-                            <div class="info">
-                                <span>${skill.name}</span>
-                            </div>
-                        </div>`
-        });
-    skillsContainer.innerHTML = skillHTML;
-}
+// function showSkills(skills) {
+//     let skillsContainer = document.getElementById("skillsContainer");
+//     let skillHTML = "";
+//         skills.forEach(skill => {
+//                 skillHTML += `
+//                 <div class="bar">
+//                             <div class="info">
+//                                 <span>${skill.name}</span>
+//                             </div>
+//                         </div>`
+//         });
+//     skillsContainer.innerHTML = skillHTML;
+// }
 
 // Pagination variables
 let currentPage = 1;
